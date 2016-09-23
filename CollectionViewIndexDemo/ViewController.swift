@@ -28,7 +28,7 @@ class ViewController: UIViewController {
     lazy var collectionViewIndex: CollectionViewIndex = {
         let collectionViewIndex = CollectionViewIndex()
         collectionViewIndex.indexTitles = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "#"]
-        collectionViewIndex.addTarget(self, action: "selectedIndexDidChange:", forControlEvents: .ValueChanged)
+        collectionViewIndex.addTarget(self, action: #selector(selectedIndexDidChange), forControlEvents: .ValueChanged)
         collectionViewIndex.translatesAutoresizingMaskIntoConstraints = false
         return collectionViewIndex
     }()

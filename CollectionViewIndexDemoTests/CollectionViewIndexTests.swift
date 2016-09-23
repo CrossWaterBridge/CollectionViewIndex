@@ -86,7 +86,7 @@ extension UIView {
         layoutIfNeeded()
         drawViewHierarchyInRect(bounds, afterScreenUpdates: true)
         
-        return UIGraphicsGetImageFromCurrentImageContext()
+        return UIGraphicsGetImageFromCurrentImageContext()!
     }
     
     var tableViewIndex: UIView? {
@@ -112,8 +112,8 @@ extension UIImage {
             return false
         }
         
-        let data1 = CFDataGetBytePtr(CGDataProviderCopyData(CGImageGetDataProvider(CGImage)))
-        let data2 = CFDataGetBytePtr(CGDataProviderCopyData(CGImageGetDataProvider(image.CGImage)))
+        let data1 = CFDataGetBytePtr(CGDataProviderCopyData(CGImageGetDataProvider(CGImage!)!))
+        let data2 = CFDataGetBytePtr(CGDataProviderCopyData(CGImageGetDataProvider(image.CGImage!)!))
         
         for i in 0..<(Int(size.width * scale * size.height * scale)) {
             let (r1, g1, b1, a1) = (data1[i * 4], data1[i * 4 + 1], data1[i * 4 + 2], data1[i * 4 + 3])

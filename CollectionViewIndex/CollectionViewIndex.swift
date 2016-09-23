@@ -107,7 +107,7 @@ public class CollectionViewIndex: UIControl {
         
         let totalHeight = titleHeight * CGFloat(indexEntries.count)
         
-        let context = UIGraphicsGetCurrentContext()
+        let context = UIGraphicsGetCurrentContext()!
         tintColor.setFill()
         
         var y = (bounds.height - totalHeight) / 2
