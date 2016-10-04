@@ -24,11 +24,10 @@ import UIKit
 import CollectionViewIndex
 
 class ViewController: UIViewController {
-    
     lazy var collectionViewIndex: CollectionViewIndex = {
         let collectionViewIndex = CollectionViewIndex()
         collectionViewIndex.indexTitles = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "#"]
-        collectionViewIndex.addTarget(self, action: #selector(selectedIndexDidChange), forControlEvents: .ValueChanged)
+        collectionViewIndex.addTarget(self, action: #selector(selectedIndexDidChange), for: .valueChanged)
         collectionViewIndex.translatesAutoresizingMaskIntoConstraints = false
         return collectionViewIndex
     }()
@@ -36,7 +35,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .whiteColor()
+        view.backgroundColor = .white
         
         view.addSubview(collectionViewIndex)
         
@@ -46,11 +45,11 @@ class ViewController: UIViewController {
             "collectionViewIndex": collectionViewIndex,
         ]
         
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("[collectionViewIndex]|", options: [], metrics: nil, views: views))
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[topLayoutGuide][collectionViewIndex][bottomLayoutGuide]", options: [], metrics: nil, views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "[collectionViewIndex]|", options: [], metrics: nil, views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[topLayoutGuide][collectionViewIndex][bottomLayoutGuide]", options: [], metrics: nil, views: views))
     }
     
-    func selectedIndexDidChange(collectionViewIndex: CollectionViewIndex) {
+    func selectedIndexDidChange(_ collectionViewIndex: CollectionViewIndex) {
         title = collectionViewIndex.indexTitles[collectionViewIndex.selectedIndex]
     }
     
@@ -59,6 +58,5 @@ class ViewController: UIViewController {
         
         collectionViewIndex.preferredMaxLayoutHeight = view.bounds.height - topLayoutGuide.length - bottomLayoutGuide.length
     }
-
 }
 

@@ -25,7 +25,6 @@ import CollectionViewIndex
 @testable import CollectionViewIndexDemo
 
 class CollectionViewIndexTests: XCTestCase {
-    
     var indexTitles = [String]()
     
     func testCollectionViewIndex() {
@@ -33,13 +32,13 @@ class CollectionViewIndexTests: XCTestCase {
         
         let height = 480
         
-        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: 320, height: height), style: .Plain)
+        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: 320, height: height), style: .plain)
         tableView.dataSource = self
         tableView.delegate = self
         let image1 = tableView.tableViewIndex!.snapshotImage()
         
         let collectionViewIndex = CollectionViewIndex(frame: .zero)
-        collectionViewIndex.contentScaleFactor = UIScreen.mainScreen().scale
+        collectionViewIndex.contentScaleFactor = UIScreen.main.scale
         collectionViewIndex.indexTitles = indexTitles
         collectionViewIndex.bounds.size = collectionViewIndex.sizeThatFits(CGSize(width: .max, height: height))
         let image2 = collectionViewIndex.snapshotImage()
@@ -48,43 +47,39 @@ class CollectionViewIndexTests: XCTestCase {
             XCTFail("Snapshots do not match with index title \(indexTitles) and height \(height)")
         }
     }
-    
 }
 
 extension CollectionViewIndexTests: UITableViewDataSource {
-    
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 0
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         return UITableViewCell()
     }
     
-    func sectionIndexTitlesForTableView(tableView: UITableView) -> [String]? {
+    func sectionIndexTitles(for tableView: UITableView) -> [String]? {
         return indexTitles
     }
     
-    func tableView(tableView: UITableView, sectionForSectionIndexTitle title: String, atIndex index: Int) -> Int {
+    func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
         return index
     }
-    
 }
 
 extension CollectionViewIndexTests: UITableViewDelegate {}
 
 extension UIView {
-    
     func snapshotImage() -> UIImage {
         UIGraphicsBeginImageContextWithOptions(bounds.size, false, 0)
         defer { UIGraphicsEndImageContext() }
         
         layoutIfNeeded()
-        drawViewHierarchyInRect(bounds, afterScreenUpdates: true)
+        drawHierarchy(in: bounds, afterScreenUpdates: true)
         
         return UIGraphicsGetImageFromCurrentImageContext()!
     }
@@ -93,7 +88,7 @@ extension UIView {
         layoutIfNeeded()
         
         for subview in subviews {
-            if NSStringFromClass(subview.dynamicType) == "UITableViewIndex" {
+            if NSStringFromClass(type(of: subview)) == "UITableViewIndex" {
                 return subview
             } else if let tableViewIndex = subview.tableViewIndex {
                 return tableViewIndex
@@ -102,38 +97,35 @@ extension UIView {
         
         return nil
     }
-    
 }
 
 extension UIImage {
-    
-    func isEqualToImage(image: UIImage, threshold: Int) -> Bool {
+    func isEqualToImage(_ image: UIImage, threshold: Int) -> Bool {
         if size != image.size {
             return false
         }
         
-        let data1 = CFDataGetBytePtr(CGDataProviderCopyData(CGImageGetDataProvider(CGImage!)!))
-        let data2 = CFDataGetBytePtr(CGDataProviderCopyData(CGImageGetDataProvider(image.CGImage!)!))
+        let data1 = CFDataGetBytePtr(cgImage!.dataProvider!.data)
+        let data2 = CFDataGetBytePtr(image.cgImage!.dataProvider!.data)
         
         for i in 0..<(Int(size.width * scale * size.height * scale)) {
-            let (r1, g1, b1, a1) = (data1[i * 4], data1[i * 4 + 1], data1[i * 4 + 2], data1[i * 4 + 3])
-            let (r2, g2, b2, a2) = (data2[i * 4], data2[i * 4 + 1], data2[i * 4 + 2], data2[i * 4 + 3])
+            let (r1, g1, b1, a1) = (data1?[i * 4], data1?[i * 4 + 1], data1?[i * 4 + 2], data1?[i * 4 + 3])
+            let (r2, g2, b2, a2) = (data2?[i * 4], data2?[i * 4 + 1], data2?[i * 4 + 2], data2?[i * 4 + 3])
             
-            if abs(Int(r1) - Int(r2)) > threshold {
+            if abs(Int(r1!) - Int(r2!)) > threshold {
                 return false
             }
-            if abs(Int(g1) - Int(g2)) > threshold {
+            if abs(Int(g1!) - Int(g2!)) > threshold {
                 return false
             }
-            if abs(Int(b1) - Int(b2)) > threshold {
+            if abs(Int(b1!) - Int(b2!)) > threshold {
                 return false
             }
-            if abs(Int(a1) - Int(a2)) > threshold {
+            if abs(Int(a1!) - Int(a2!)) > threshold {
                 return false
             }
         }
         
         return true
     }
-    
 }
