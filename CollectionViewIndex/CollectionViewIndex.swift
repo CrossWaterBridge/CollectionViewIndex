@@ -62,6 +62,9 @@ public class CollectionViewIndex: UIControl {
         
         backgroundColor = UIColor(white: 1, alpha: 0.9)
         contentMode = .redraw
+        isAccessibilityElement = true
+        accessibilityTraits = UIAccessibilityTraitAdjustable
+        accessibilityLabel = NSLocalizedString("table index", comment: "title given to the section index control")
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -215,4 +218,31 @@ public class CollectionViewIndex: UIControl {
         return CGSize(width: max(15, width + 4), height: size.height)
     }
 
+}
+
+// MARK: - UIAccessibility
+
+extension CollectionViewIndex {
+    public override func accessibilityIncrement() {
+        let newIndex = selectedIndex - 1
+        changeSection(newIndex)
+    }
+
+    public override func accessibilityDecrement() {
+        let newIndex = selectedIndex + 1
+        changeSection(newIndex)
+    }
+
+    private func changeSection(_ section: Int) {
+        guard section >= 0, section < indexTitles.count else { return }
+        _selectedIndex = section
+        sendActions(for: .valueChanged)
+        announceNewSection()
+    }
+
+    private func announceNewSection() {
+        let title =  indexTitles[selectedIndex]
+        let announcement = "\(title)".lowercased()
+        UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, announcement)
+    }
 }
