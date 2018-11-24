@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2015 Hilton Campbell
+// Copyright (c) 2018 Hilton Campbell
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -49,7 +49,7 @@ class ViewController: UIViewController {
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[topLayoutGuide][collectionViewIndex][bottomLayoutGuide]", options: [], metrics: nil, views: views))
     }
     
-    func selectedIndexDidChange(_ collectionViewIndex: CollectionViewIndex) {
+    @objc func selectedIndexDidChange(_ collectionViewIndex: CollectionViewIndex) {
         title = collectionViewIndex.indexTitles[collectionViewIndex.selectedIndex]
     }
     

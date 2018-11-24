@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "CollectionViewIndex"
-  s.version      = "2.0.0"
+  s.version      = "3.0.0"
   s.summary      = "View that replicates the built in UITableView section index, but for use in UICollectionView."
   s.author       = 'Hilton Campbell'
   s.homepage     = "https://github.com/CrossWaterBridge/CollectionViewIndex"

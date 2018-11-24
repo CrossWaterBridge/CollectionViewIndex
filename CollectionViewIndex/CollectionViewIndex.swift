@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2015 Hilton Campbell
+// Copyright (c) 2018 Hilton Campbell
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -129,7 +129,7 @@ public class CollectionViewIndex: UIControl {
     }
     
     func attributedStringForTitle(_ title: String) -> NSAttributedString {
-        return NSAttributedString(string: title, attributes: [NSFontAttributeName: font, NSForegroundColorAttributeName: tintColor])
+        return NSAttributedString(string: title, attributes: [.font: font, .foregroundColor: tintColor])
     }
     
     public override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
