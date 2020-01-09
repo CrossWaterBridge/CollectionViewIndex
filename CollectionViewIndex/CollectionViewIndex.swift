@@ -50,12 +50,23 @@ public class CollectionViewIndex: UIControl {
         }
     }
     
-    var _selectedIndex: Int?
+    var _selectedIndex: Int? {
+        didSet {
+            guard _selectedIndex != oldValue else {
+                return
+            }
+            sendActions(for: .valueChanged)
+            feedbackGenerator?.selectionChanged()
+            feedbackGenerator?.prepare()
+        }
+    }
     public var selectedIndex: Int {
         return _selectedIndex ?? 0
     }
     
     let font = UIFont.boldSystemFont(ofSize: 11)
+
+    private var feedbackGenerator: UISelectionFeedbackGenerator?
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -134,26 +145,33 @@ public class CollectionViewIndex: UIControl {
     
     public override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         super.beginTracking(touch, with: event)
+
+        feedbackGenerator = UISelectionFeedbackGenerator()
+        feedbackGenerator?.prepare()
         
-        let selectedIndex = indexForTouch(touch)
-        if _selectedIndex != selectedIndex {
-            _selectedIndex = selectedIndex
-            sendActions(for: .valueChanged)
-        }
-        
+        _selectedIndex = indexForTouch(touch)
+
         return true
     }
     
     public override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         super.continueTracking(touch, with: event)
         
-        let selectedIndex = indexForTouch(touch)
-        if _selectedIndex != selectedIndex {
-            _selectedIndex = selectedIndex
-            sendActions(for: .valueChanged)
-        }
-        
+        _selectedIndex = indexForTouch(touch)
+
         return true
+    }
+
+    public override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
+        super.endTracking(touch, with: event)
+
+        feedbackGenerator = nil
+    }
+
+    public override func cancelTracking(with event: UIEvent?) {
+        super.cancelTracking(with: event)
+
+        feedbackGenerator = nil
     }
     
     func indexForTouch(_ touch: UITouch) -> Int {
