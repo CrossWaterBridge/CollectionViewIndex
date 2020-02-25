@@ -59,15 +59,19 @@ public class CollectionViewIndex: UIControl {
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        
+        setup()
+    }
+
+    public required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setup()
+    }
+
+    private func setup() {
         backgroundColor = UIColor(white: 1, alpha: 0.9)
         contentMode = .redraw
     }
 
-    public required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     public override func tintColorDidChange() {
         super.tintColorDidChange()
         
